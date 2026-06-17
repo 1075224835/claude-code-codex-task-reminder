@@ -10,6 +10,10 @@ Fullscreen Reminder is a Windows task reminder tool built around a **receiver** 
 
 > Built for long-running agent tasks, completion notices, permission prompts, and moments when you do not want to miss a human-in-the-loop confirmation.
 
+<p align="center">
+  <img src="pig.png" alt="Fullscreen Reminder showcase" width="900">
+</p>
+
 ## ✨ Highlights
 
 | Capability | Description |
