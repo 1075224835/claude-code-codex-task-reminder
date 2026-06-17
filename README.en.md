@@ -1,4 +1,4 @@
-# 🔔 Fullscreen Reminder
+# 🔔 Claude Code/Codex Task Completion Reminder
 
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4?style=flat-square)](#)
 [![Runtime](https://img.shields.io/badge/runtime-.NET%208-512BD4?style=flat-square)](#)

@@ -1,4 +1,4 @@
-# 🔔 全屏提醒
+# 🔔 Claude Code/Codex 任务完成提醒
 
 [![平台](https://img.shields.io/badge/平台-Windows-0078D4?style=flat-square)](#)
 [![运行时](https://img.shields.io/badge/运行时-.NET%208-512BD4?style=flat-square)](#)
