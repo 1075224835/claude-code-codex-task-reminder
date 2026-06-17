@@ -1,5 +1,7 @@
 # 全屏提醒
 
+[English README](README.en.md)
+
 Windows 全屏提醒工具，由接收端和发送端组成。发送端监听 Claude Code / Codex 等任务状态，接收端在本机显示全屏提醒，也可选择通过 Server 酱推送到微信。
 
 ## 功能
