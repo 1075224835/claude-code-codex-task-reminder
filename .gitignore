@@ -1,0 +1,53 @@
+# .NET 构建产物
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+*.rsuser
+*.nupkg
+
+# 发布、打包与安装器负载
+build/
+dist/
+release/
+全屏提醒-安装包*/
+全屏提醒-安装包.zip
+FullscreenReminder-Setup.zip
+installer/Reminder.Setup/payload.zip
+*.pdb
+*.zip
+
+# 本机配置、密钥、日志和运行数据
+*.log
+logs/
+config.json
+devices.json
+stats.json
+prefs.json
+monitors.json
+*.pfx
+*.pem
+*.key
+*.cer
+*.crt
+
+# 常见本地机密文件
+.env
+.env.*
+*.secret
+*.secrets
+secrets/
+
+# Windows 与临时文件
+Thumbs.db
+Desktop.ini
+*.tmp
+*.temp
+~$*
+~.DDF
+
+# 编辑器目录
+.vs/
+.vscode/
+.idea/

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <AssemblyName>FullscreenReminder</AssemblyName>
+    <RootNamespace>Reminder.Receiver</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="app.ico" />
+  </ItemGroup>
+
+  <!-- 内嵌 ASP.NET Core（Kestrel + 最小 API）作为消息路由 Hub。来自已安装的共享框架，无需 NuGet。 -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!-- 启用了 WinForms 仅为系统托盘；移除其全局 using，避免与 WPF 的 Application/Color/KeyEventArgs 等冲突。
+       需要 WinForms 类型的文件（TrayIcon.cs）自行显式 using。 -->
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Reminder.Protocol\Reminder.Protocol.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,41 @@
+<Window x:Class="Reminder.Receiver.Overlay.AlertWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None" ResizeMode="NoResize"
+        ShowInTaskbar="False" Topmost="True" Background="#0E1116"
+        WindowStartupLocation="Manual" Left="-32000" Top="-32000" Width="200" Height="200"
+        KeyDown="Window_KeyDown">
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 图片背景上的暗色蒙版（保证文字可读）；纯色背景时折叠。 -->
+        <Border x:Name="Scrim" Grid.RowSpan="2" Background="#73000000" Visibility="Collapsed" />
+
+        <Border x:Name="AccentBar" Grid.Row="0" Height="16" VerticalAlignment="Top" Background="#37474F" />
+
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80">
+            <!-- 来源主题色徽章（Claude=橙 / Codex=绿），便于一眼判断信息来源 -->
+            <Border x:Name="SourceBadge" CornerRadius="10" Padding="32,12" HorizontalAlignment="Center"
+                    Margin="0,0,0,30" Visibility="Collapsed">
+                <TextBlock x:Name="SourceName" Foreground="White" FontSize="38" FontWeight="Bold" />
+            </Border>
+            <Border x:Name="TypeBadge" CornerRadius="8" Padding="26,12" HorizontalAlignment="Center" Background="#37474F">
+                <TextBlock x:Name="TypeText" Foreground="White" FontSize="40" FontWeight="Bold" />
+            </Border>
+            <TextBlock x:Name="BodyText" Foreground="#F5F7FA" FontSize="68" FontWeight="SemiBold"
+                       TextWrapping="Wrap" TextAlignment="Center" Margin="0,46,0,0" MaxWidth="1600" />
+            <TextBlock x:Name="MetaText" Foreground="#93A1B5" FontSize="30" TextAlignment="Center"
+                       TextWrapping="Wrap" Margin="0,38,0,0" MaxWidth="1500" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,64">
+            <TextBlock x:Name="CountdownText" Foreground="#B5C0D0" FontSize="24" TextAlignment="Center"
+                       Margin="0,0,0,16" Visibility="Collapsed" />
+            <Button x:Name="DismissBtn" Content="关闭 (Esc)" FontSize="34" Padding="50,20"
+                    Cursor="Hand" Click="Dismiss_Click" HorizontalAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</Window>
