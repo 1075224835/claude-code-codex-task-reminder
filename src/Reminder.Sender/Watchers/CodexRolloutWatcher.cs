@@ -36,6 +36,7 @@ public sealed class CodexRolloutWatcher
         public string LastAgentMsg = "";
         public string LastUserInstruction = "";
         public bool MetaRead;
+        public bool IsSubagent;
     }
 
     public CodexRolloutWatcher(ReminderSender sender, string? root = null)
@@ -110,6 +111,14 @@ public sealed class CodexRolloutWatcher
                 continue;
             }
 
+            // 子智能体的完成由主任务统一汇总；跳到文件末尾，避免重复提醒和无谓解析。
+            if (st.MetaRead && st.IsSubagent)
+            {
+                st.Offset = len;
+                st.Leftover.Clear();
+                continue;
+            }
+
             if (len < st.Offset) { st.Offset = 0; st.Leftover.Clear(); } // 截断/轮换
             else if (len == st.Offset) continue;                          // 无新数据
 
@@ -156,6 +165,7 @@ public sealed class CodexRolloutWatcher
             if (line.Length == 0) continue;
             try { ProcessLine(path, st, line); }
             catch { /* 跳过损坏/非 JSON 行 */ }
+            if (st.MetaRead && st.IsSubagent) break;
         }
     }
 
@@ -171,9 +181,7 @@ public sealed class CodexRolloutWatcher
         {
             if (root.TryGetProperty("payload", out var pl))
             {
-                st.SessionId = Str(pl, "id");
-                st.Cwd = Str(pl, "cwd");
-                st.MetaRead = true;
+                ReadMeta(st, pl);
             }
             return;
         }
@@ -195,6 +203,12 @@ public sealed class CodexRolloutWatcher
         else if (et == "task_complete")
         {
             if (!st.MetaRead) TryReadMeta(path, st);
+            if (st.IsSubagent)
+            {
+                st.LastAgentMsg = "";
+                st.LastUserInstruction = "";
+                return;
+            }
             string detail = Str(p, "last_agent_message");
             if (detail.Length == 0) detail = st.LastAgentMsg;
             SendTaskComplete(st, detail);
@@ -214,12 +228,18 @@ public sealed class CodexRolloutWatcher
             using var doc = JsonDocument.Parse(first);
             if (doc.RootElement.TryGetProperty("payload", out var pl))
             {
-                st.SessionId = Str(pl, "id");
-                st.Cwd = Str(pl, "cwd");
-                st.MetaRead = true;
+                ReadMeta(st, pl);
             }
         }
         catch { /* 忽略 */ }
+    }
+
+    private static void ReadMeta(FileState st, JsonElement payload)
+    {
+        st.SessionId = Str(payload, "id");
+        st.Cwd = Str(payload, "cwd");
+        st.IsSubagent = Hooks.IsCodexSubagent(payload);
+        st.MetaRead = true;
     }
 
     private void SendTaskComplete(FileState st, string detail)

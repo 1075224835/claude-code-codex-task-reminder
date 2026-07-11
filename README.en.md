@@ -22,6 +22,7 @@ Fullscreen Reminder is a Windows task reminder tool built around a **receiver** 
 | 🧩 Multiple senders | One receiver can pair with multiple sender machines. Each sender gets its own device ID and message key. |
 | 🔐 Safer pairing | Pairing codes contain only a one-time enrollment secret, expire in about 10 minutes, and are invalidated after enrollment. |
 | 🧭 Task context | Notifications can include message type, latest command, time, project, path, host, and session details. |
+| 🔕 Agent noise control | Codex subagent completions are ignored automatically, so only the main task triggers a completion reminder. |
 | 🧰 Tray controls | Receiver and sender actions are available from Windows tray menus. |
 | 🧱 Multi-monitor support | Choose target screens, custom backgrounds, and auto-close countdown behavior. |
 | 📮 WeChat forwarding | Optional ServerChan forwarding can push completion or confirmation messages to WeChat. |

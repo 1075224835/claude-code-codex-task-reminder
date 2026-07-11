@@ -106,6 +106,7 @@ internal static class Program
                 case "codex":
                 {
                     string json = a.Length > 2 ? a[2] : stdin;
+                    if (Hooks.IsCodexSubagent(json)) break;
                     var (s, c, last) = Hooks.ParseCodex(json);
                     SendOrQueue(AgentCore.NewReminder(
                         ReminderTypes.TaskComplete, Hooks.ProjectFromCwd(c), "Codex 回合完成", last, s, "codex", c));

@@ -38,6 +38,32 @@ public static class Hooks
         catch { return ("", "", ""); }
     }
 
+    /// <summary>识别 Codex 子智能体会话；兼容会话元数据和 notify 两种 JSON 结构。</summary>
+    public static bool IsCodexSubagent(string json)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (Str(root, "type") == "session_meta" && root.TryGetProperty("payload", out var payload))
+                root = payload;
+            return IsCodexSubagent(root);
+        }
+        catch { return false; }
+    }
+
+    public static bool IsCodexSubagent(JsonElement metadata)
+    {
+        string threadSource = Str(metadata, "thread_source");
+        if (threadSource.Length == 0) threadSource = Str(metadata, "thread-source");
+        if (threadSource.Equals("subagent", StringComparison.OrdinalIgnoreCase)) return true;
+
+        if (!metadata.TryGetProperty("source", out var source)) return false;
+        if (source.ValueKind == JsonValueKind.String)
+            return (source.GetString() ?? "").Equals("subagent", StringComparison.OrdinalIgnoreCase);
+        return source.ValueKind == JsonValueKind.Object && source.TryGetProperty("subagent", out _);
+    }
+
     /// <summary>
     /// 把 Claude Code 的 Notification 消息细分为 needs_approval / needs_input。
     /// 权限提示典型为 "Claude needs your permission to use &lt;tool&gt;"；
